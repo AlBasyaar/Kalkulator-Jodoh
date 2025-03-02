@@ -73,41 +73,36 @@
                 return;
             }
             
-            // Simpan nama di localStorage untuk digunakan di halaman hasil
+            
             localStorage.setItem('yourName', yourName);
             localStorage.setItem('partnerName', partnerName);
             
-            // Hitung kecocokan (akan ditampilkan di halaman hasil)
+       
             const loveScore = calculateLoveScore(yourName, partnerName);
             localStorage.setItem('loveScore', loveScore);
             
-            // Arahkan ke halaman hasil
+        
             window.location.href = 'hasil.html';
         });
         
         function calculateLoveScore(name1, name2) {
-            // Algoritma sederhana untuk menghitung kecocokan
-            // Kombinasikan nama, hitung total karakter unik, dan buat nilai acak berdasarkan nama
-            
+         
             const combinedNames = (name1 + name2).toLowerCase();
             let uniqueChars = new Set(combinedNames);
             
-            // Buat nilai dengan menjumlahkan kode ASCII dari setiap karakter
+            
             let total = 0;
             for (let i = 0; i < combinedNames.length; i++) {
                 total += combinedNames.charCodeAt(i);
             }
             
-            // Hitung kecocokan dari 1-100 berdasarkan nama
-            // Gunakan rumus yang konsisten sehingga pasangan nama yang sama selalu mendapatkan skor yang sama
-            const baseScore = (total % 30) + 70; // Menghasilkan skor antara 70-99
+            const baseScore = (total % 30) + 70; 
             
-            // Tambahkan faktor acak kecil, tapi tetap konsisten untuk input yang sama
+          
             const seed = total * uniqueChars.size;
             const pseudoRandom = Math.sin(seed) * 10000;
             const randomFactor = Math.abs(Math.floor(pseudoRandom)) % 5;
             
-            // Skor akhir antara 70-100
             return Math.min(100, baseScore + randomFactor);
         }
     </script>
