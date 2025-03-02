@@ -103,19 +103,17 @@
                 return;
             }
             
-            // Tampilkan nama
+           
             document.getElementById('names-display').textContent = 
                 yourName + ' ❤️ ' + partnerName;
             
-            // Animasi skor cinta
             animateCounter('love-score', 0, parseInt(loveScore), 2000);
             
-            // Set sub-skor dengan variasi
             const characterMatch = Math.min(100, parseInt(loveScore) + (Math.floor(Math.random() * 10) - 5));
             const emotionalMatch = Math.min(100, parseInt(loveScore) + (Math.floor(Math.random() * 10) - 5));
             const harmonyMatch = Math.min(100, parseInt(loveScore) + (Math.floor(Math.random() * 10) - 5));
             
-            // Animasi sub-skor
+          
             setTimeout(() => {
                 animateWidth('character-match', characterMatch, 1000);
                 setTimeout(() => {
@@ -184,7 +182,7 @@
                     confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
                     container.appendChild(confetti);
                     
-                    // Hapus elemen setelah animasi selesai
+                
                     setTimeout(() => {
                         confetti.remove();
                     }, 5000);
