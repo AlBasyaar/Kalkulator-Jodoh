@@ -1,1 +1,1 @@
-Siapa yang tidak penasaran seberapa cocok dirinya dengan seseorang? Di Kalkulator Jodoh, kami menawarkan cara cepat dan menyenangkan untuk mengetahuinya. Cukup masukkan nama kamu dan pasangan, dan biarkan kalkulator memberikan hasilnya. Akankah cinta kalian sekuat angka yang muncul?
+Selamat datang di Kalkulator Jodoh, sebuah website seru yang dapat membantu kamu menghitung tingkat kecocokan dengan pasangan atau gebetan anda! 
