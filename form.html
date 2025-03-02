@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Kalkulator Jodoh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .love-bg {
+            background: linear-gradient(135deg, #bfe2da 0%, #9ac9b5 100%);
+        }
+        .heart-beat {
+            animation: heartBeat 1.5s infinite;
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+        }
+    </style>
+</head>
+<body class="min-h-screen love-bg flex flex-col items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="p-8">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-bold text-red-600 mb-2"> Masukkan Nama </h1>
+                <p class="text-gray-600">Isi nama Anda dan pasangan untuk menghitung kecocokan</p>
+            </div>
+            
+            <form id="loveForm" class="space-y-6">
+                <div>
+                    <label for="yourName" class="block text-gray-700 font-medium mb-2">Nama Kamu</label>
+                    <input type="text" id="yourName" name="yourName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                
+                <div>
+                    <label for="partnerName" class="block text-gray-700 font-medium mb-2">Nama Pasangan Kamu</label>
+                    <input type="text" id="partnerName" name="partnerName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center">
+                        <span>Hitung Kecocokan</span>
+                        <span class="ml-2 heart-beat"></span>
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <a href="index.html" class="text-red-600 hover:text-red-800 text-sm">
+                    &larr; Kembali ke Halaman Utama
+                </a>
+            </div>
+        </div>
+        
+        <div class="bg-pink-100 px-8 py-4">
+            <p class="text-center text-pink-800 text-sm">
+                Dibuat dengan ❤️ | Hanya untuk hiburan
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('loveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const yourName = document.getElementById('yourName').value.trim();
+            const partnerName = document.getElementById('partnerName').value.trim();
+            
+            if (yourName === '' || partnerName === '') {
+                alert('Silakan isi kedua nama terlebih dahulu!');
+                return;
+            }
+            
+            // Simpan nama di localStorage untuk digunakan di halaman hasil
+            localStorage.setItem('yourName', yourName);
+            localStorage.setItem('partnerName', partnerName);
+            
+            // Hitung kecocokan (akan ditampilkan di halaman hasil)
+            const loveScore = calculateLoveScore(yourName, partnerName);
+            localStorage.setItem('loveScore', loveScore);
+            
+            // Arahkan ke halaman hasil
+            window.location.href = 'hasil.html';
+        });
+        
+        function calculateLoveScore(name1, name2) {
+            // Algoritma sederhana untuk menghitung kecocokan
+            // Kombinasikan nama, hitung total karakter unik, dan buat nilai acak berdasarkan nama
+            
+            const combinedNames = (name1 + name2).toLowerCase();
+            let uniqueChars = new Set(combinedNames);
+            
+            // Buat nilai dengan menjumlahkan kode ASCII dari setiap karakter
+            let total = 0;
+            for (let i = 0; i < combinedNames.length; i++) {
+                total += combinedNames.charCodeAt(i);
+            }
+            
+            // Hitung kecocokan dari 1-100 berdasarkan nama
+            // Gunakan rumus yang konsisten sehingga pasangan nama yang sama selalu mendapatkan skor yang sama
+            const baseScore = (total % 30) + 70; // Menghasilkan skor antara 70-99
+            
+            // Tambahkan faktor acak kecil, tapi tetap konsisten untuk input yang sama
+            const seed = total * uniqueChars.size;
+            const pseudoRandom = Math.sin(seed) * 10000;
+            const randomFactor = Math.abs(Math.floor(pseudoRandom)) % 5;
+            
+            // Skor akhir antara 70-100
+            return Math.min(100, baseScore + randomFactor);
+        }
+    </script>
+</body>
+</html>

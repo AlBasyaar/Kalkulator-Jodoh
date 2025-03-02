@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Jodoh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .love-bg {
+            background: linear-gradient(135deg, #bfe2da 0%, #9ac9b5 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen love-bg flex flex-col items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="p-8">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-red-600"> Kalkulator Jodoh </h1>
+                <p class="text-gray-600 mt-2">Temukan seberapa cocok kalian berdua!</p>
+            </div>
+            
+            <div class="text-center">
+                <img src="/love.png" alt="Love Illustration" class="mx-auto rounded-lg mb-6 w-32">
+                
+                <p class="text-gray-700 mb-6">
+                    Kalkulator jodoh ini akan menghitung tingkat kecocokan Anda dengan pasangan berdasarkan nama kalian berdua. Hasil perhitungan ini hanya untuk hiburan saja, ya!
+                </p>
+                
+                <a href="form.html" class="block w-full bg-red-600 hover:bg-redk-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 text-center">
+                    Mulai Sekarang
+                </a>
+            </div>
+        </div>
+        
+        <div class="bg-pink-100 px-8 py-4">
+            <p class="text-center text-red-800 text-sm">
+                Dibuat dengan ❤️ | Hanya untuk hiburan
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript untuk animasi sederhana
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('h1');
+            title.classList.add('animate-pulse');
+            
+            // Fungsi untuk membuat efek detak jantung pada judul
+            let growing = true;
+            setInterval(() => {
+                if (growing) {
+                    title.style.transform = 'scale(1.05)';
+                    growing = false;
+                } else {
+                    title.style.transform = 'scale(1)';
+                    growing = true;
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

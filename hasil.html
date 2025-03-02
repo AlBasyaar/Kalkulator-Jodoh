@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Kalkulator Jodoh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .love-bg {
+            background: linear-gradient(135deg, #bfe2da 0%, #9ac9b5 100%);
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            animation: confetti-fall 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px); opacity: 1; }
+            100% { transform: translateY(500px); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen love-bg flex flex-col items-center justify-center p-4">
+    <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
+    
+    <div class="w-96 bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="p-6">
+            <div class="text-center mb-4">
+                <h1 class="text-2xl font-bold text-red-600"> Hasil Kecocokan </h1>
+                <p class="text-gray-600 mt-2" id="names-display">Menghitung kecocokan...</p>
+            </div>
+            
+            <div class="flex justify-center mb-4">
+                <div class="w-32 h-32 rounded-full bg-red-100 flex items-center justify-center border-4 border-red-400">
+                    <div class="text-center">
+                        <span id="love-score" class="block text-4xl font-bold text-pink-600">--</span>
+                        <span class="text-pink-500">% Cocok</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-pink-50 p-3 rounded-lg mb-4">
+                <h3 class="font-bold text-pink-700 mb-1">Analisis Kecocokan:</h3>
+                <p id="love-analysis" class="text-gray-700 text-sm">
+                    Memuat analisis...
+                </p>
+            </div>
+            
+            <div class="space-y-2">
+                <div class="bg-gray-100 p-2 rounded-lg">
+                    <h4 class="font-medium text-gray-700 text-sm">Kecocokan Karakter</h4>
+                    <div class="w-full bg-gray-300 rounded-full h-2 mt-1">
+                        <div id="character-match" class="bg-pink-600 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-100 p-2 rounded-lg">
+                    <h4 class="font-medium text-gray-700 text-sm">Kecocokan Emosional</h4>
+                    <div class="w-full bg-gray-300 rounded-full h-2 mt-1">
+                        <div id="emotional-match" class="bg-pink-600 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-100 p-2 rounded-lg">
+                    <h4 class="font-medium text-gray-700 text-sm">Keharmonisan</h4>
+                    <div class="w-full bg-gray-300 rounded-full h-2 mt-1">
+                        <div id="harmony-match" class="bg-pink-600 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center space-y-2">
+                <a href="form.html" class="block w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Coba Lagi dengan Nama Lain
+                </a>
+                
+                <a href="index.html" class="block w-full bg-red-100 hover:bg-red-200 text-red-700 font-medium py-2 px-4 rounded-lg transition duration-300">
+                    Kembali ke Halaman Utama
+                </a>
+            </div>
+        </div>
+        
+        <div class="bg-pink-100 px-6 py-3">
+            <p class="text-center text-pink-800 text-xs">
+                Dibuat dengan ❤️ | Hanya untuk hiburan
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil data dari localStorage
+            const yourName = localStorage.getItem('yourName');
+            const partnerName = localStorage.getItem('partnerName');
+            const loveScore = localStorage.getItem('loveScore');
+            
+            if (!yourName || !partnerName || !loveScore) {
+                // Jika data tidak ada, kembali ke halaman form
+                alert('Silakan isi form terlebih dahulu!');
+                window.location.href = 'form.html';
+                return;
+            }
+            
+            // Tampilkan nama
+            document.getElementById('names-display').textContent = 
+                yourName + ' ❤️ ' + partnerName;
+            
+            // Animasi skor cinta
+            animateCounter('love-score', 0, parseInt(loveScore), 2000);
+            
+            // Set sub-skor dengan variasi
+            const characterMatch = Math.min(100, parseInt(loveScore) + (Math.floor(Math.random() * 10) - 5));
+            const emotionalMatch = Math.min(100, parseInt(loveScore) + (Math.floor(Math.random() * 10) - 5));
+            const harmonyMatch = Math.min(100, parseInt(loveScore) + (Math.floor(Math.random() * 10) - 5));
+            
+            // Animasi sub-skor
+            setTimeout(() => {
+                animateWidth('character-match', characterMatch, 1000);
+                setTimeout(() => {
+                    animateWidth('emotional-match', emotionalMatch, 1000);
+                    setTimeout(() => {
+                        animateWidth('harmony-match', harmonyMatch, 1000);
+                    }, 300);
+                }, 300);
+            }, 1000);
+            
+            // Set analisis berdasarkan skor
+            document.getElementById('love-analysis').textContent = getLoveAnalysis(parseInt(loveScore), yourName, partnerName);
+            
+            // Tampilkan konfeti jika skor tinggi
+            if (parseInt(loveScore) > 80) {
+                createConfetti();
+            }
+        });
+        
+        function animateCounter(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            const step = Math.max(1, Math.floor((end - start) / (duration / 50)));
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= end) {
+                    clearInterval(timer);
+                    element.textContent = end;
+                } else {
+                    element.textContent = current;
+                }
+            }, 50);
+        }
+        
+        function animateWidth(elementId, percentage, duration) {
+            const element = document.getElementById(elementId);
+            element.style.width = percentage + '%';
+            element.style.transition = `width ${duration}ms ease-in-out`;
+        }
+        
+        function getLoveAnalysis(score, name1, name2) {
+            if (score >= 90) {
+                return `Wow! ${name1} dan ${name2} memiliki kecocokan yang luar biasa! Kalian seperti ditakdirkan bersama dan memiliki potensi hubungan yang sangat harmonis. Komunikasi dan kepercayaan akan menjadi kunci keberhasilan hubungan kalian.`;
+            } else if (score >= 80) {
+                return `${name1} dan ${name2} memiliki kecocokan yang sangat baik! Kalian bisa saling melengkapi dan mendukung satu sama lain. Dengan sedikit usaha dan pengertian, hubungan kalian bisa bertahan lama.`;
+            } else if (score >= 70) {
+                return `${name1} dan ${name2} memiliki kecocokan yang baik. Meskipun akan ada tantangan, kalian memiliki potensi untuk mengembangkan hubungan yang sehat. Komunikasi terbuka akan membantu kalian mengatasi perbedaan.`;
+            } else if (score >= 60) {
+                return `${name1} dan ${name2} memiliki kecocokan yang cukup. Ada beberapa tantangan yang perlu kalian selesaikan, tetapi dengan komitmen dan pengertian, hubungan kalian bisa berkembang menjadi lebih baik.`;
+            } else {
+                return `${name1} dan ${name2} mungkin perlu lebih banyak usaha untuk saling memahami. Setiap hubungan membutuhkan komitmen, dan dengan komunikasi yang baik, kalian bisa mengatasi perbedaan yang ada.`;
+            }
+        }
+        
+        function createConfetti() {
+            const colors = ['#ff7eb3', '#ff758c', '#ffca3a', '#8eecf5', '#a8e6cf'];
+            const container = document.getElementById('confetti-container');
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    container.appendChild(confetti);
+                    
+                    // Hapus elemen setelah animasi selesai
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }, Math.random() * 2000);
+            }
+        }
+    </script>
+</body>
+</html>
