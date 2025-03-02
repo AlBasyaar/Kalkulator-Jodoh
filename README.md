@@ -1,1 +1,1 @@
-Selamat datang di Kalkulator Jodoh, sebuah website seru yang dapat membantu kamu menghitung tingkat kecocokan dengan pasangan atau gebetan anda!
+Apakah kamu penasaran seberapa cocok kamu dengan pasangan atau gebetanmu? Kalkulator Jodoh adalah website interaktif yang bisa membantumu menghitung tingkat kecocokan berdasarkan nama! Dengan tampilan yang menarik dan fitur unik, website ini cocok digunakan untuk seru-seruan bersama teman, gebetan, atau bahkan pasangan
